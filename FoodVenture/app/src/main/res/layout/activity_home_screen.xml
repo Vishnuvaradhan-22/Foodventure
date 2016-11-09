@@ -9,4 +9,10 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.vish.foodventure.HomeScreen">
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/action_menu_bar"
+        android:background="?colorPrimary"/>
+
 </RelativeLayout>
