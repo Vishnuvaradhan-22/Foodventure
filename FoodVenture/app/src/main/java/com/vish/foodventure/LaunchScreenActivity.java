@@ -120,16 +120,13 @@ public class LaunchScreenActivity extends AppCompatActivity {
     private void createNewAccount(){
         EditText emailId = (EditText)findViewById(R.id.emailId);
         EditText password = (EditText)findViewById(R.id.password);
+        progressDialog = ProgressDialog.show(this, "FoodVenture",
+                "Creating Account", true);
 
         mAuth.createUserWithEmailAndPassword(emailId.getText().toString(), password.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d("My APp:", "createUserWithEmail:onComplete:" + task.isSuccessful());
-
-                        // If sign in fails, display a message to the user. If sign in succeeds
-                        // the auth state listener will be notified and logic to handle the
-                        // signed in user can be handled in the listener.
                         if (!task.isSuccessful()) {
                             Exception exception = task.getException();
                             if(exception.getClass().getSimpleName().equals("FirebaseAuthUserCollisionException")){
@@ -138,9 +135,9 @@ public class LaunchScreenActivity extends AppCompatActivity {
                             }
                         }
                         else{
-
+                            mAuth.signOut();
                         }
-
+                        progressDialog.dismiss();
                     }
                 });
     }
