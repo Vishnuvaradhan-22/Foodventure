@@ -10,12 +10,19 @@
     tools:context="com.vish.foodventure.LaunchScreenActivity">
 
 
+    <android.support.v7.widget.Toolbar
+        android:layout_width="700sp"
+        android:layout_height="?actionBarSize"
+        android:id="@+id/action_menu_bar"
+        android:background="?colorPrimary"/>
     <ImageView
         android:layout_width="250sp"
         android:layout_height="250sp"
         android:id="@+id/appLogo"
+        android:layout_marginTop="20sp"
         android:layout_marginLeft="40sp"
         android:src="@drawable/applogo"
+        android:layout_below="@id/action_menu_bar"
          />
 
     <EditText

@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
 
-public class LaunchScreenActivity extends AppCompatActivity {
+public class LaunchScreenActivity extends MenuLoader {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -47,6 +48,9 @@ public class LaunchScreenActivity extends AppCompatActivity {
         }
     }
     private void initializeUi(){
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.action_menu_bar);
+        setSupportActionBar(toolbar);
         Button loginButton = (Button)findViewById(R.id.loginButton);
         Button createAccount = (Button)findViewById(R.id.createAccount);
 
@@ -100,7 +104,7 @@ public class LaunchScreenActivity extends AppCompatActivity {
 
                         if (!task.isSuccessful()) {
                             Exception exception = task.getException();
-
+                            progressDialog.dismiss();
                             switch (exception.getClass().getSimpleName()){
                                 case "FirebaseAuthInvalidUserException":
                                     Toast.makeText(LaunchScreenActivity.this,"Please register with your email",Toast.LENGTH_LONG).show();
@@ -110,8 +114,14 @@ public class LaunchScreenActivity extends AppCompatActivity {
                                     break;
                             }
                         }
-
-                        progressDialog.dismiss();
+                        else {
+                            progressDialog.dismiss();
+                            Intent intent = new Intent();
+                            Bundle bundle = new Bundle();
+                            //bundle.putString("UserEmail",user.getEmail());
+                            intent.setClass(getApplicationContext(), HomeScreen.class);
+                            startActivity(intent);
+                        }
 
                     }
                 });
