@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.vish.foodventure.R;
-import com.vish.foodventure.utility.Restaurant;
+import com.vish.foodventure.models.Restaurant;
 
 public class DisplayRestaurant extends MenuLoader {
 

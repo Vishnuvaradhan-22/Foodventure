@@ -1,4 +1,4 @@
-package com.vish.foodventure.utility;
+package com.vish.foodventure.models;
 
 import java.io.Serializable;
 

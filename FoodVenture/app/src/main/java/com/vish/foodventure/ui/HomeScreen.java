@@ -40,7 +40,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.vish.foodventure.R;
 import com.vish.foodventure.utility.DataLoader;
-import com.vish.foodventure.utility.Restaurant;
+import com.vish.foodventure.models.Restaurant;
 import com.vish.foodventure.utility.RestaurantLoader;
 
 import org.json.JSONArray;
