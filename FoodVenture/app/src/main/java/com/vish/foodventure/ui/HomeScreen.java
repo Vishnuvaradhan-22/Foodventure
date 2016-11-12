@@ -1,4 +1,4 @@
-package com.vish.foodventure;
+package com.vish.foodventure.ui;
 
 import android.Manifest;
 import android.content.Context;
@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.vish.foodventure.R;
 import com.vish.foodventure.utility.DataLoader;
 import com.vish.foodventure.utility.Restaurant;
 import com.vish.foodventure.utility.RestaurantLoader;

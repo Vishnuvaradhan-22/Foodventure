@@ -1,10 +1,10 @@
-package com.vish.foodventure;
+package com.vish.foodventure.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
+import com.vish.foodventure.R;
 import com.vish.foodventure.utility.Restaurant;
 
 public class DisplayRestaurant extends MenuLoader {
