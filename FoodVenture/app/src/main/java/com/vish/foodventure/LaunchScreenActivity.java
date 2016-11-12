@@ -104,7 +104,7 @@ public class LaunchScreenActivity extends MenuLoader {
 
                         if (!task.isSuccessful()) {
                             Exception exception = task.getException();
-
+                            progressDialog.dismiss();
                             switch (exception.getClass().getSimpleName()){
                                 case "FirebaseAuthInvalidUserException":
                                     Toast.makeText(LaunchScreenActivity.this,"Please register with your email",Toast.LENGTH_LONG).show();
@@ -114,8 +114,14 @@ public class LaunchScreenActivity extends MenuLoader {
                                     break;
                             }
                         }
-
-                        progressDialog.dismiss();
+                        else {
+                            progressDialog.dismiss();
+                            Intent intent = new Intent();
+                            Bundle bundle = new Bundle();
+                            //bundle.putString("UserEmail",user.getEmail());
+                            intent.setClass(getApplicationContext(), HomeScreen.class);
+                            startActivity(intent);
+                        }
 
                     }
                 });
