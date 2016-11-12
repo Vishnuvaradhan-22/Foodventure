@@ -1,4 +1,4 @@
-package com.vish.foodventure;
+package com.vish.foodventure.utility;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -13,9 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 
 
 /**
