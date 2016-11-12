@@ -1,4 +1,4 @@
-package com.vish.foodventure;
+package com.vish.foodventure.ui;
 
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -7,6 +7,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.vish.foodventure.R;
 
 /**
  * Created by Vish on 10/11/2016.

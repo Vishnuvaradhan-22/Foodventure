@@ -1,7 +1,8 @@
-package com.vish.foodventure;
+package com.vish.foodventure.ui;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -36,6 +38,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.vish.foodventure.R;
 import com.vish.foodventure.utility.DataLoader;
 import com.vish.foodventure.utility.Restaurant;
 import com.vish.foodventure.utility.RestaurantLoader;
@@ -47,7 +50,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class HomeScreen extends MenuLoader implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback, DataLoader {
+public class HomeScreen extends MenuLoader implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, OnMapReadyCallback,DataLoader {
 
     private static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 104;
     private GoogleApiClient googleApiClient;
@@ -183,10 +186,14 @@ public class HomeScreen extends MenuLoader implements GoogleApiClient.Connection
                 JSONObject tempRestaurantData = (JSONObject)result.get(i);
                 Restaurant newRestaurant = new Restaurant();
                 newRestaurant.setRestaurantName((String)tempRestaurantData.get("name"));
-                if(tempRestaurantData.get("rating").getClass().getSimpleName().equals("Double"))
-                    newRestaurant.setRating((Double)tempRestaurantData.get("rating"));
+                if(tempRestaurantData.has("rating")){
+                    if(tempRestaurantData.get("rating").getClass().getSimpleName().equals("Double"))
+                        newRestaurant.setRating((Double)tempRestaurantData.get("rating"));
+                    else
+                        newRestaurant.setRating((Integer)tempRestaurantData.get("rating"));
+                }
                 else
-                    newRestaurant.setRating((Integer)tempRestaurantData.get("rating"));
+                    newRestaurant.setRating(0.0);
                 newRestaurant.setAddress((String)tempRestaurantData.get("vicinity"));
 
                 JSONObject geometry = (JSONObject)tempRestaurantData.get("geometry");
@@ -210,6 +217,19 @@ public class HomeScreen extends MenuLoader implements GoogleApiClient.Connection
     private void initializeList(){
         ListView restaurantListView = (ListView)findViewById(R.id.list);
         restaurantListView.setAdapter(new RowIconAdapter(this, R.layout.restaurant_item, R.id.row_label, availableRestaurants));
+        restaurantListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Restaurant restaurant = (Restaurant) adapterView.getItemAtPosition(i);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("Restaurant",restaurant);
+                Intent intent = new Intent();
+                intent.putExtra("data",bundle);
+                intent.setClass(getApplicationContext(),DisplayRestaurant.class);
+                startActivity(intent);
+            }
+
+        });
     }
 
     class RowIconAdapter extends ArrayAdapter<Restaurant>
@@ -296,4 +316,5 @@ public class HomeScreen extends MenuLoader implements GoogleApiClient.Connection
             .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_VIOLET)));
         }
     }
+
 }
