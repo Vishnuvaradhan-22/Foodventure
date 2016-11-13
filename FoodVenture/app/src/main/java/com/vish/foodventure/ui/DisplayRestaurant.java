@@ -8,17 +8,29 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.vish.foodventure.R;
 import com.vish.foodventure.models.Restaurant;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DisplayRestaurant extends MenuLoader {
 
     TextView restaurantName;
     TextView restaurantDetails;
+    Restaurant selectedRestaurant;
+
+    private DatabaseReference databaseReference;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_restaurant);
+
         initializeUI();
     }
 
@@ -26,7 +38,7 @@ public class DisplayRestaurant extends MenuLoader {
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_menu_bar);
         setSupportActionBar(toolbar);
         Bundle receivedBundle = getIntent().getBundleExtra("data");
-        Restaurant selectedRestaurant = (Restaurant)receivedBundle.getSerializable("Restaurant");
+        selectedRestaurant = (Restaurant)receivedBundle.getSerializable("Restaurant");
 
         restaurantName = (TextView)findViewById(R.id.restaurantName);
         restaurantDetails = (TextView)findViewById(R.id.restaurantDetails);
@@ -59,7 +71,17 @@ public class DisplayRestaurant extends MenuLoader {
     private View.OnClickListener favoritesListner = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d("FoodVenture","Add to Favorites");
+
+            databaseReference = FirebaseDatabase.getInstance().getReference();
+            String key = databaseReference.child("restaurants").push().getKey();
+            String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            Map<String,Object> restaurant = selectedRestaurant.objectMapper();
+
+            Map<String,Object> childUpdate = new HashMap<>();
+            childUpdate.put("/users/"+userId+"/favorites/"+key,restaurant);
+
+            databaseReference.updateChildren(childUpdate);
+
         }
     };
 

@@ -1,5 +1,6 @@
 package com.vish.foodventure.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -25,6 +26,9 @@ public class MenuLoader extends AppCompatActivity {
         else if(item.getItemId() == R.id.logout){
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             mAuth.signOut();
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),LaunchScreenActivity.class);
+            startActivity(intent);
         }
         return true;
     }
