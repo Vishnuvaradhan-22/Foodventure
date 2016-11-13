@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.vish.foodventure.R;
 import com.vish.foodventure.utility.DataLoader;
 import com.vish.foodventure.models.Restaurant;
@@ -66,6 +67,11 @@ public class HomeScreen extends MenuLoader implements GoogleApiClient.Connection
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
+        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),LaunchScreenActivity.class);
+            startActivity(intent);
+        }
         initializeUI();
     }
 
