@@ -35,7 +35,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="240sp"
+                android:layout_height="190sp"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Restaurant Details"
                 android:id="@+id/restaurantDetails"
