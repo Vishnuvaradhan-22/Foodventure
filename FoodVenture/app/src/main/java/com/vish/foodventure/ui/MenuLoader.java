@@ -21,7 +21,9 @@ public class MenuLoader extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.favorites){
-            Log.d("Menu","Clicked Fav");
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),FavoriteRestaurant.class);
+            startActivity(intent);
         }
         else if(item.getItemId() == R.id.logout){
             FirebaseAuth mAuth = FirebaseAuth.getInstance();

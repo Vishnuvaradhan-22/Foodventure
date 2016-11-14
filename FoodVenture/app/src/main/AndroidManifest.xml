@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vish.foodventure" >
+    package="com.vish.foodventure">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -10,8 +10,8 @@
         android:icon="@drawable/applogo"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
-        <activity android:name=".ui.LaunchScreenActivity" >
+        android:theme="@style/AppTheme">
+        <activity android:name=".ui.LaunchScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,6 +25,7 @@
             android:value="AIzaSyAvaQzSOgxEc1y69zQNXhfRgErf9yc1ZnI" />
 
         <activity android:name=".ui.DisplayRestaurant" />
+        <activity android:name=".ui.FavoriteRestaurant"></activity>
     </application>
 
 </manifest>
