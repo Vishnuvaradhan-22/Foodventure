@@ -4,7 +4,7 @@
     <item android:id="@+id/favorites"
         android:icon = "@android:drawable/ic_menu_view"
         myapp:showAsAction="never"
-        android:title="Favourites"/>
+        android:title="Favorites"/>
     <item android:id="@+id/logout"
         myapp:showAsAction="never"
         android:title="Logout"/>

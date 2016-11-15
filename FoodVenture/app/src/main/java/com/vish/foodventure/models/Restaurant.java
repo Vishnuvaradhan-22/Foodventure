@@ -70,6 +70,12 @@ public class Restaurant implements Serializable {
         return mappedObject;
     }
 
+    public void getRestaurantFromMap(HashMap<String,Object> restaurantMap){
+        this.restaurantName = (String)restaurantMap.get("restaurantName");
+        this.address = (String)restaurantMap.get("address");
+    }
+
+
     @Override
     public String toString() {
         return "Restaurant{" +
