@@ -1,6 +1,7 @@
 package com.vish.foodventure.ui;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -9,7 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
+import com.facebook.appevents.AppEventsLogger;
+import com.facebook.share.model.ShareHashtag;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -31,7 +35,10 @@ public class DisplayRestaurant extends MenuLoader {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //Initialize Facebook SDK
+
         setContentView(R.layout.activity_display_restaurant);
+        AppEventsLogger.activateApp(this);
 
         initializeUI();
     }
@@ -59,7 +66,14 @@ public class DisplayRestaurant extends MenuLoader {
     private View.OnClickListener facebookListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Log.d("FoodVenture","Facebook listener");
+
+            Intent intent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("Restaurant",selectedRestaurant);
+            intent.putExtra("Restaurant",bundle);
+            intent.setClass(getApplicationContext(),FacebookShareContentBuilder.class);
+            startActivity(intent);
+
         }
     };
 
@@ -116,4 +130,5 @@ public class DisplayRestaurant extends MenuLoader {
 
         startActivity(Intent.createChooser(shareIntent,"Share via"));
     }
+
 }

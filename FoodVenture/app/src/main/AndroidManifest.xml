@@ -23,9 +23,19 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAvaQzSOgxEc1y69zQNXhfRgErf9yc1ZnI" />
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
         <activity android:name=".ui.DisplayRestaurant" />
-        <activity android:name=".ui.FavoriteRestaurant"></activity>
+        <activity android:name=".ui.FavoriteRestaurant" />
+
+        <provider
+            android:name="com.facebook.FacebookContentProvider"
+            android:authorities="com.facebook.app.FacebookContentProvider523980547726471"
+            android:exported="true" />
+
+        <activity android:name=".ui.FacebookShareContentBuilder"></activity>
     </application>
 
 </manifest>
