@@ -28,6 +28,7 @@ dependencies {
     compile 'com.google.firebase:firebase-database:9.4.0'
     compile 'com.google.android.gms:play-services-location:9.4.0'
     compile 'com.google.android.gms:play-services-places:9.4.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.+'
     compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
 }
 apply plugin: 'com.google.gms.google-services'
