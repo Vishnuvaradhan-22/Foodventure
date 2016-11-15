@@ -1,6 +1,8 @@
-package com.vish.foodventure.utility;
+package com.vish.foodventure.models;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Vish on 10/11/2016.
@@ -59,6 +61,18 @@ public class Restaurant implements Serializable {
 
     public void setOpenNow(boolean openNow) {
         this.openNow = openNow;
+    }
+
+    public Map<String,Object> objectMapper(){
+        Map<String,Object> mappedObject = new HashMap<String,Object>();
+        mappedObject.put("restaurantName",this.restaurantName);
+        mappedObject.put("address",this.address);
+        return mappedObject;
+    }
+
+    public void getRestaurantFromMap(HashMap<String,Object> restaurantMap){
+        this.restaurantName = (String)restaurantMap.get("restaurantName");
+        this.address = (String)restaurantMap.get("address");
     }
 
 

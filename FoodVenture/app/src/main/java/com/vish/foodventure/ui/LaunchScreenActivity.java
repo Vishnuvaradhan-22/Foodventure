@@ -142,7 +142,9 @@ public class LaunchScreenActivity extends AppCompatActivity {
                             }
                         }
                         else{
-                            mAuth.signOut();
+                            FirebaseAuth.getInstance().signOut();
+                            Toast.makeText(LaunchScreenActivity.this, "Successfully registered! Please Signin",
+                                    Toast.LENGTH_LONG).show();
                         }
                         progressDialog.dismiss();
                     }

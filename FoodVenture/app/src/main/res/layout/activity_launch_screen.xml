@@ -15,60 +15,78 @@
         android:layout_height="?actionBarSize"
         android:id="@+id/action_menu_bar"
         android:background="?colorPrimary"/>
-    <ImageView
-        android:layout_width="250sp"
-        android:layout_height="250sp"
-        android:id="@+id/appLogo"
-        android:layout_marginTop="20sp"
-        android:layout_marginLeft="40sp"
-        android:src="@drawable/applogo"
-        android:layout_below="@id/action_menu_bar"
-         />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:hint="Email Id"
-        android:textSize="20sp"
-        android:id="@+id/emailId"
-        android:layout_below="@id/appLogo"
-        android:layout_marginTop="20sp"
-        android:layout_centerInParent="true"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_menu_bar">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            >
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:hint="Password"
-        android:textSize="20sp"
-        android:id="@+id/password"
-        android:layout_below="@id/emailId"
-        android:layout_centerInParent="true"/>
+            <ImageView
+                android:layout_width="200sp"
+                android:layout_height="200sp"
+                android:id="@+id/appLogo"
+                android:layout_gravity="center"
+                android:layout_marginTop="20sp"
+                android:src="@drawable/applogo"
+                android:layout_below="@id/action_menu_bar"
+                />
 
-    <Button
-        android:layout_width="250sp"
-        android:layout_height="wrap_content"
-        android:text="@string/login"
-        android:textSize="20sp"
-        android:textColor="#FFFFFF"
-        android:background="#ba68c8"
-        android:layout_below="@id/password"
-        android:layout_centerInParent="true"
-        android:id="@+id/loginButton" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:ems="10"
+                android:hint="Email Id"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:id="@+id/emailId"
+                android:layout_below="@id/appLogo"
+                android:layout_marginTop="20sp"
+                />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="250sp"
-        android:layout_height="wrap_content"
-        android:text="@string/signup"
-        android:id="@+id/createAccount"
-        android:layout_below="@id/loginButton"
-        android:layout_centerInParent="true"
-        android:background="#ba68c8"
-        android:textSize="18sp"
-        android:layout_marginTop="20sp"
-        android:textColor="#FFFFFF"/>
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:ems="10"
+                android:layout_gravity="center"
+                android:hint="Password"
+                android:textSize="20sp"
+                android:id="@+id/password"
+                android:layout_below="@id/emailId"
+                />
+
+            <Button
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:text="@string/login"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:textColor="#FFFFFF"
+                android:background="#ba68c8"
+                android:layout_below="@id/password"
+                android:layout_marginTop="5sp"
+                android:id="@+id/loginButton" />
+
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="250sp"
+                android:layout_height="wrap_content"
+                android:text="@string/signup"
+                android:layout_gravity="center"
+                android:id="@+id/createAccount"
+                android:layout_below="@id/loginButton"
+                android:background="#ba68c8"
+                android:textSize="18sp"
+                android:layout_marginTop="20sp"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>

@@ -14,66 +14,88 @@
         android:layout_height="?actionBarSize"
         android:id="@+id/action_menu_bar"
         android:background="?colorPrimary"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_menu_bar">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Restaurant Name"
+                android:id="@+id/restaurantName"
+                android:layout_gravity="center"
+                android:layout_marginTop="20sp"
+                android:textSize="26sp"
+                android:textColor="?colorPrimaryDark"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Restaurant Name"
-        android:layout_below="@id/action_menu_bar"
-        android:id="@+id/restaurantName"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="20sp"
-        android:textSize="26sp"
-        android:textColor="?colorPrimaryDark"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="190sp"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Restaurant Details"
+                android:id="@+id/restaurantDetails"
+                android:layout_marginStart="10sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp"
+                android:textSize="22sp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Restaurant Details"
-        android:id="@+id/restaurantDetails"
-        android:layout_below="@id/restaurantName"
-        android:layout_marginLeft="10sp"
-        android:layout_marginTop="20sp"
-        android:textSize="22sp"/>
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10sp"
+                android:layout_marginLeft="10sp"
+                android:layout_marginTop="20sp">
 
-    <Button
-        android:layout_width="180sp"
-        android:layout_height="wrap_content"
-        android:text="Share in Facebook"
-        android:id="@+id/facebook"
-        android:background="?colorPrimary"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/restaurantDetails"
-        android:layout_alignStart="@+id/restaurantDetails"
-        android:layout_marginBottom="139dp" />
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Share in Facebook"
+                        android:id="@+id/facebook"
+                        android:background="?colorPrimary"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        />
 
-    <Button
-        android:layout_width="180sp"
-        android:layout_height="wrap_content"
-        android:text="Message Friend"
-        android:id="@+id/message"
-        android:layout_marginLeft="10sp"
-        android:textSize="18sp"
-        android:background="?colorPrimary"
-        android:textColor="#FFFFFF"
-        android:layout_alignTop="@+id/facebook"
-        android:layout_toRightOf="@+id/facebook"
-        android:layout_toEndOf="@+id/facebook" />
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Message Friend"
+                        android:id="@+id/message"
+                        android:layout_marginLeft="10sp"
+                        android:layout_marginStart="10sp"
+                        android:textSize="18sp"
+                        android:layout_weight="1"
+                        android:background="?colorPrimary"
+                        android:textColor="#FFFFFF"
+                        />
 
-    <Button
-        android:layout_width="180sp"
-        android:layout_height="wrap_content"
-        android:text="Add to Favorites"
-        android:id="@+id/favorites"
-        android:textColor="#FFFFFF"
-        android:textSize="18sp"
-        android:layout_marginTop="10sp"
-        android:background="?colorPrimary"
-        android:layout_below="@+id/message"
-        android:layout_centerInParent="true" />
+                </LinearLayout>
+
+                <Button
+                    android:layout_width="180sp"
+                    android:layout_height="wrap_content"
+                    android:text="Add to Favorites"
+                    android:id="@+id/favorites"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:layout_marginTop="10sp"
+                    android:layout_gravity="center"
+                    android:background="?colorPrimary"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </RelativeLayout>

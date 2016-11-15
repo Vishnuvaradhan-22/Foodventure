@@ -1,5 +1,6 @@
 package com.vish.foodventure.ui;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -20,11 +21,16 @@ public class MenuLoader extends AppCompatActivity {
     }
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.favorites){
-            Log.d("Menu","Clicked Fav");
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),FavoriteRestaurant.class);
+            startActivity(intent);
         }
         else if(item.getItemId() == R.id.logout){
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
             mAuth.signOut();
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),LaunchScreenActivity.class);
+            startActivity(intent);
         }
         return true;
     }

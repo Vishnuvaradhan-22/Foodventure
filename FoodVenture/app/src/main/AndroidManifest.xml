@@ -24,7 +24,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAvaQzSOgxEc1y69zQNXhfRgErf9yc1ZnI" />
 
-        <activity android:name=".ui.DisplayRestaurant"></activity>
+        <activity android:name=".ui.DisplayRestaurant" />
+        <activity android:name=".ui.FavoriteRestaurant"></activity>
     </application>
 
 </manifest>
