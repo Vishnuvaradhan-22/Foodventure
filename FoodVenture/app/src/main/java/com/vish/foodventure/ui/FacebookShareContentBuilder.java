@@ -23,6 +23,7 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 import com.vish.foodventure.R;
 import com.vish.foodventure.models.Restaurant;
+import com.vish.foodventure.utility.NetworkManager;
 
 public class FacebookShareContentBuilder extends MenuLoader {
 
@@ -42,7 +43,15 @@ public class FacebookShareContentBuilder extends MenuLoader {
         shareDialog = new ShareDialog(this);
 
         setContentView(R.layout.activity_facebook_share_content_builder);
-        initializeUI();
+        NetworkManager networkManager = new NetworkManager();
+        boolean connectionResult = networkManager.testConnection();
+        if(connectionResult)
+            initializeUI();
+        else{
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),LaunchScreenActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void initializeUI(){

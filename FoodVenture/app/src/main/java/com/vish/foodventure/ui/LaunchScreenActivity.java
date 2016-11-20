@@ -1,7 +1,10 @@
 package com.vish.foodventure.ui;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,6 +21,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.vish.foodventure.R;
+import com.vish.foodventure.utility.NetworkManager;
 
 public class LaunchScreenActivity extends AppCompatActivity {
 
@@ -24,6 +29,10 @@ public class LaunchScreenActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
     private ProgressDialog progressDialog;
+    private EditText emailId;
+    private EditText password;
+    private TextView errorMessage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +43,8 @@ public class LaunchScreenActivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        if(mAuth !=null)
+            mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
@@ -45,30 +55,56 @@ public class LaunchScreenActivity extends AppCompatActivity {
         }
     }
     private void initializeUi(){
-
         Toolbar toolbar = (Toolbar)findViewById(R.id.action_menu_bar);
         setSupportActionBar(toolbar);
+
+        emailId = (EditText)findViewById(R.id.emailId);
+        password = (EditText)findViewById(R.id.password);
+        errorMessage = (TextView)findViewById(R.id.errorMessage);
+
         Button loginButton = (Button)findViewById(R.id.loginButton);
         Button createAccount = (Button)findViewById(R.id.createAccount);
 
-        loginButton.setOnClickListener(loginListener);
-        createAccount.setOnClickListener(createAccountListener);
+        NetworkManager networkManager = new NetworkManager();
+        boolean connectionResult = networkManager.testConnection();
+        if(!connectionResult){
+            errorMessage.setVisibility(View.VISIBLE);
+            emailId.setVisibility(View.INVISIBLE);
+            password.setVisibility(View.INVISIBLE);
+            loginButton.setVisibility(View.INVISIBLE);
+            createAccount.setVisibility(View.INVISIBLE);
+        }
+        else {
+            if(emailId.getVisibility() == View.INVISIBLE)
+                emailId.setVisibility(View.VISIBLE);
+            if(password.getVisibility()==View.INVISIBLE)
+                password.setVisibility(View.VISIBLE);
+            if (loginButton.getVisibility() == View.INVISIBLE)
+                loginButton.setVisibility(View.VISIBLE);
+            if(createAccount.getVisibility() == View.INVISIBLE)
+                createAccount.setVisibility(View.VISIBLE);
+            if(errorMessage.getVisibility() == View.VISIBLE)
+                errorMessage.setVisibility(View.GONE);
+            loginButton.setOnClickListener(loginListener);
+            createAccount.setOnClickListener(createAccountListener);
 
-        mAuth = FirebaseAuth.getInstance();
+            mAuth = FirebaseAuth.getInstance();
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    Intent intent = new Intent();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("UserEmail",user.getEmail());
-                    intent.setClass(getApplicationContext(),HomeScreen.class);
-                    startActivity(intent);
+            mAuthListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                    if (user != null) {
+                        Intent intent = new Intent();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("UserEmail",user.getEmail());
+                        intent.setClass(getApplicationContext(),HomeScreen.class);
+                        startActivity(intent);
+                    }
                 }
-            }
-        };
+            };
+        }
+
     }
 
     private View.OnClickListener loginListener = new View.OnClickListener() {
@@ -87,12 +123,9 @@ public class LaunchScreenActivity extends AppCompatActivity {
 
 
     private void loginUser(){
-        EditText emailId = (EditText)findViewById(R.id.emailId);
-        final EditText password = (EditText)findViewById(R.id.password);
 
         progressDialog = ProgressDialog.show(this, "FoodVenture",
                 "Login", true);
-
 
         mAuth.signInWithEmailAndPassword(emailId.getText().toString(), password.getText().toString())
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -125,8 +158,6 @@ public class LaunchScreenActivity extends AppCompatActivity {
     }
 
     private void createNewAccount(){
-        EditText emailId = (EditText)findViewById(R.id.emailId);
-        EditText password = (EditText)findViewById(R.id.password);
         progressDialog = ProgressDialog.show(this, "FoodVenture",
                 "Creating Account", true);
 
