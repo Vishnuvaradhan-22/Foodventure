@@ -37,7 +37,7 @@ public class FavoriteRestaurant extends MenuLoader {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_restaurant);
-        NetworkManager networkManager = new NetworkManager();
+        NetworkManager networkManager = new NetworkManager(this);
         boolean connectionResult = networkManager.testConnection();
         if(connectionResult)
             initializeUI();

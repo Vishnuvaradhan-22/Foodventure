@@ -23,6 +23,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.vish.foodventure.R;
 import com.vish.foodventure.utility.NetworkManager;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class LaunchScreenActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
@@ -32,6 +35,15 @@ public class LaunchScreenActivity extends AppCompatActivity {
     private EditText emailId;
     private EditText password;
     private TextView errorMessage;
+
+    private Button loginButton;
+    private Button createAccount;
+
+    private Pattern pattern;
+    private Matcher matcher;
+
+    private final String email_patters = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +60,12 @@ public class LaunchScreenActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
         if (mAuthListener != null) {
@@ -57,15 +75,15 @@ public class LaunchScreenActivity extends AppCompatActivity {
     private void initializeUi(){
         Toolbar toolbar = (Toolbar)findViewById(R.id.action_menu_bar);
         setSupportActionBar(toolbar);
+        pattern = Pattern.compile(email_patters);
 
         emailId = (EditText)findViewById(R.id.emailId);
         password = (EditText)findViewById(R.id.password);
         errorMessage = (TextView)findViewById(R.id.errorMessage);
 
-        Button loginButton = (Button)findViewById(R.id.loginButton);
-        Button createAccount = (Button)findViewById(R.id.createAccount);
-
-        NetworkManager networkManager = new NetworkManager();
+        loginButton = (Button)findViewById(R.id.loginButton);
+        createAccount = (Button)findViewById(R.id.createAccount);
+        NetworkManager networkManager = new NetworkManager(this);
         boolean connectionResult = networkManager.testConnection();
         if(!connectionResult){
             errorMessage.setVisibility(View.VISIBLE);
@@ -107,6 +125,18 @@ public class LaunchScreenActivity extends AppCompatActivity {
 
     }
 
+    private boolean validateData(){
+        String email = emailId.getText().toString();
+
+        matcher = pattern.matcher(email);
+        if(!matcher.matches()){
+            emailId.setError("Please enter valid email");
+            return false;
+        }
+
+        return true;
+    }
+
     private View.OnClickListener loginListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -126,60 +156,80 @@ public class LaunchScreenActivity extends AppCompatActivity {
 
         progressDialog = ProgressDialog.show(this, "FoodVenture",
                 "Login", true);
+        if(emailId.getText().toString().length() == 0){
+            emailId.setError("Please enter valid email");
+            progressDialog.dismiss();
+        }
+        else if(password.getText().toString().length() == 0) {
+            password.setError("Please enter valid password");
+            progressDialog.dismiss();
+        }
+        else if(validateData()) {
+            mAuth.signInWithEmailAndPassword(emailId.getText().toString(), password.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
 
-        mAuth.signInWithEmailAndPassword(emailId.getText().toString(), password.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        if (!task.isSuccessful()) {
-                            Exception exception = task.getException();
-                            progressDialog.dismiss();
-                            switch (exception.getClass().getSimpleName()){
-                                case "FirebaseAuthInvalidUserException":
-                                    Toast.makeText(LaunchScreenActivity.this,"Please register with your email",Toast.LENGTH_LONG).show();
-                                    break;
-                                case "FirebaseAuthInvalidCredentialsException":
-                                    password.setError("Incorrect password!");
-                                    break;
+                            if (!task.isSuccessful()) {
+                                Exception exception = task.getException();
+                                progressDialog.dismiss();
+                                switch (exception.getClass().getSimpleName()) {
+                                    case "FirebaseAuthInvalidUserException":
+                                        Toast.makeText(LaunchScreenActivity.this, "Please register with your email", Toast.LENGTH_LONG).show();
+                                        break;
+                                    case "FirebaseAuthInvalidCredentialsException":
+                                        password.setError("Incorrect password!");
+                                        break;
+                                }
+                            } else {
+                                progressDialog.dismiss();
+                                Intent intent = new Intent();
+                                Bundle bundle = new Bundle();
+                                //bundle.putString("UserEmail",user.getEmail());
+                                intent.setClass(getApplicationContext(), HomeScreen.class);
+                                startActivity(intent);
                             }
-                        }
-                        else {
-                            progressDialog.dismiss();
-                            Intent intent = new Intent();
-                            Bundle bundle = new Bundle();
-                            //bundle.putString("UserEmail",user.getEmail());
-                            intent.setClass(getApplicationContext(), HomeScreen.class);
-                            startActivity(intent);
-                        }
 
-                    }
-                });
+                        }
+                    });
+        }
+        else
+            progressDialog.dismiss();
     }
 
     private void createNewAccount(){
         progressDialog = ProgressDialog.show(this, "FoodVenture",
                 "Creating Account", true);
-
-        mAuth.createUserWithEmailAndPassword(emailId.getText().toString(), password.getText().toString())
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            Exception exception = task.getException();
-                            if(exception.getClass().getSimpleName().equals("FirebaseAuthUserCollisionException")){
-                                Toast.makeText(LaunchScreenActivity.this, "User already registered! Please Signin",
+        if(emailId.getText().toString().length() == 0){
+            emailId.setError("Please enter valid email");
+            progressDialog.dismiss();
+        }
+        else if(password.getText().toString().length()==0){
+            password.setError("Please enter valid password");
+            progressDialog.dismiss();
+        }
+        else if(validateData()) {
+            mAuth.createUserWithEmailAndPassword(emailId.getText().toString(), password.getText().toString())
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (!task.isSuccessful()) {
+                                Exception exception = task.getException();
+                                if (exception.getClass().getSimpleName().equals("FirebaseAuthUserCollisionException")) {
+                                    Toast.makeText(LaunchScreenActivity.this, "User already registered! Please Signin",
+                                            Toast.LENGTH_LONG).show();
+                                }
+                            } else {
+                                FirebaseAuth.getInstance().signOut();
+                                Toast.makeText(LaunchScreenActivity.this, "Successfully registered! Please Signin",
                                         Toast.LENGTH_LONG).show();
                             }
+                            progressDialog.dismiss();
                         }
-                        else{
-                            FirebaseAuth.getInstance().signOut();
-                            Toast.makeText(LaunchScreenActivity.this, "Successfully registered! Please Signin",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
+                    });
+        }
+        else
+            progressDialog.dismiss();
     }
 
 }

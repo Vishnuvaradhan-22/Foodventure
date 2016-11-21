@@ -8,16 +8,18 @@ import android.net.NetworkInfo;
 /**
  * Created by Vish on 16/11/2016.
  */
-public class NetworkManager extends Activity{
+public class NetworkManager{
     private ConnectivityManager connectivityManager;
     private NetworkInfo networkInfo;
-
-    public NetworkManager() {
+    private Context mContext;
+    public NetworkManager(Context context) {
+        mContext = context;
     }
 
     public boolean testConnection(){
-        ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+        connectivityManager = (ConnectivityManager)mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        networkInfo = connectivityManager.getActiveNetworkInfo();
         boolean result = networkInfo !=null && networkInfo.isConnectedOrConnecting();
         return result;
     }

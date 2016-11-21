@@ -43,7 +43,7 @@ public class FacebookShareContentBuilder extends MenuLoader {
         shareDialog = new ShareDialog(this);
 
         setContentView(R.layout.activity_facebook_share_content_builder);
-        NetworkManager networkManager = new NetworkManager();
+        NetworkManager networkManager = new NetworkManager(this);
         boolean connectionResult = networkManager.testConnection();
         if(connectionResult)
             initializeUI();
