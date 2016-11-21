@@ -1,6 +1,7 @@
 package com.vish.foodventure.ui;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.vish.foodventure.R;
 import com.vish.foodventure.models.Restaurant;
+import com.vish.foodventure.utility.NetworkManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +37,15 @@ public class FavoriteRestaurant extends MenuLoader {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite_restaurant);
-        initializeUI();
+        NetworkManager networkManager = new NetworkManager(this);
+        boolean connectionResult = networkManager.testConnection();
+        if(connectionResult)
+            initializeUI();
+        else{
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),LaunchScreenActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void  initializeUI(){

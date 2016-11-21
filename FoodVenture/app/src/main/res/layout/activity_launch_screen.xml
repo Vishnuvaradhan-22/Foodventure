@@ -37,6 +37,15 @@
                 android:layout_below="@id/action_menu_bar"
                 />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Internet Connection! Please turn on Wifi or Mobile netwrok!"
+                android:visibility="gone"
+                android:textColor="#f7ed160a"
+                android:textSize="20sp"
+                android:id="@+id/errorMessage" />
+
             <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

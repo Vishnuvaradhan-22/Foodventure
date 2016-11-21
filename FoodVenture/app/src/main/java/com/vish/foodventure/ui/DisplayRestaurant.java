@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.vish.foodventure.R;
 import com.vish.foodventure.models.Restaurant;
+import com.vish.foodventure.utility.NetworkManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,12 +36,16 @@ public class DisplayRestaurant extends MenuLoader {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //Initialize Facebook SDK
-
         setContentView(R.layout.activity_display_restaurant);
-        AppEventsLogger.activateApp(this);
-
-        initializeUI();
+        NetworkManager networkManager = new NetworkManager(this);
+        boolean connectionResult = networkManager.testConnection();
+        if(connectionResult)
+            initializeUI();
+        else{
+            Intent intent = new Intent();
+            intent.setClass(getApplicationContext(),LaunchScreenActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void initializeUI(){
