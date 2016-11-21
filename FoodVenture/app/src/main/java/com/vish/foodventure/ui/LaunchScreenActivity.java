@@ -208,7 +208,7 @@ public class LaunchScreenActivity extends AppCompatActivity {
             password.setError("Please enter valid password");
             progressDialog.dismiss();
         }
-        else if(validateData()) {
+        else if(validateData() && validatePassword()) {
             mAuth.createUserWithEmailAndPassword(emailId.getText().toString(), password.getText().toString())
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -230,6 +230,16 @@ public class LaunchScreenActivity extends AppCompatActivity {
         }
         else
             progressDialog.dismiss();
+    }
+
+    private boolean validatePassword(){
+        String password = this.password.getText().toString();
+        if(password.length()<6){
+            this.password.setError("Password must be at least 6 characters");
+            return false;
+        }
+        else
+            return true;
     }
 
 }
